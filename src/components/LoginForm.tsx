@@ -1,15 +1,23 @@
-import { useState } from "react";
+import { type FormEvent, type ChangeEvent, useState } from "react";
 import styles from "./LoginForm.module.css";
+
+type LoginErrors = {
+  email: string;
+  password: string;
+};
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [errors, setErrors] = useState({ email: "", password: "" });
+  const [errors, setErrors] = useState<LoginErrors>({
+    email: "",
+    password: "",
+  });
 
   const validate = () => {
-    const nextErrors = { email: "", password: "" };
+    const nextErrors: LoginErrors = { email: "", password: "" };
 
     if (!email.trim()) {
       nextErrors.email = "Email is required.";
@@ -25,7 +33,7 @@ const LoginForm = () => {
     return !nextErrors.email && !nextErrors.password;
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!validate()) {
@@ -36,12 +44,12 @@ const LoginForm = () => {
     // TODO: wire up authentication logic
   };
 
-  const handleEmailChange = (event) => {
+  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
     setErrors((current) => ({ ...current, email: "" }));
   };
 
-  const handlePasswordChange = (event) => {
+  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
     setErrors((current) => ({ ...current, password: "" }));
   };
