@@ -1,7 +1,7 @@
 function App() {
   return (
     <>
-      <h1>React + TypeScript</h1>
+      <h1>Welcome Log In Page</h1>
     </>
   );
 }
