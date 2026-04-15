@@ -9,12 +9,12 @@ const Login = () => {
           <aside className={styles.hero}>
             <div className={styles.brand}>
               <div className={styles.logo} aria-hidden="true">
-                AC
+                MC
               </div>
             </div>
 
             <div className={styles.content}>
-              <p className={styles.kicker}>Company</p>
+              <p className={styles.kicker}>Marvellous</p>
               <h1 className={styles.title}>Welcome back</h1>
               <p className={styles.subtitle}>
                 Sign in to your account and continue managing your product
@@ -31,7 +31,7 @@ const Login = () => {
 
           <div className={styles.formPanel}>
             <div className={styles.panelHeader}>
-              <p className={styles.panelMeta}>
+              <p className={styles.panelMeta} style={{ textAlign: "center" }}>
                 Welcome back. Enter your details below.
               </p>
             </div>

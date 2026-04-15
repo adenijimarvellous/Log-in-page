@@ -1,4 +1,5 @@
 import { type FormEvent, type ChangeEvent, useState } from "react";
+import { FaGoogle, FaGithub } from "react-icons/fa";
 import styles from "./LoginForm.module.css";
 
 type LoginErrors = {
@@ -136,11 +137,15 @@ const LoginForm = () => {
 
       <div className={styles.socialGrid}>
         <button type="button" className={styles.socialButton}>
-          <span className={styles.socialIcon}>G</span>
+          <span className={`${styles.socialIcon} ${styles.googleIcon}`}>
+            <FaGoogle />
+          </span>
           Continue with Google
         </button>
         <button type="button" className={styles.socialButton}>
-          <span className={styles.socialIcon}>GH</span>
+          <span className={`${styles.socialIcon} ${styles.githubIcon}`}>
+            <FaGithub />
+          </span>
           Continue with GitHub
         </button>
       </div>
