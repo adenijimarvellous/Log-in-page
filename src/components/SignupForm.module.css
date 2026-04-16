@@ -1,0 +1,132 @@
+.form {
+  display: grid;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 450px;
+  margin: 0 auto;
+}
+
+.field {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1rem 1rem;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(255, 255, 255, 0.05);
+  color: #f8fafc;
+  font-size: 1rem;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease,
+    background-color 0.25s ease;
+}
+
+.input::placeholder {
+  color: rgba(226, 232, 240, 0.7);
+}
+
+.input:focus {
+  outline: none;
+  border-color: rgba(99, 102, 241, 0.88);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.16);
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-1px);
+}
+
+.invalid {
+  border-color: rgba(248, 113, 113, 0.9);
+}
+
+.passwordWrapper {
+  position: relative;
+}
+
+.toggleButton {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border: none;
+  background: rgba(255, 255, 255, 0.08);
+  color: #c7d2fe;
+  font-weight: 700;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.toggleButton:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.primaryButton {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: 1.25rem;
+  background: linear-gradient(135deg, #6366f1 0%, #0ea5e9 100%);
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.primaryButton:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.primaryButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px rgba(14, 165, 233, 0.28);
+}
+
+.primaryButton:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.8);
+  outline-offset: 3px;
+}
+
+.footer {
+  margin: 0;
+  padding-top: 0.5rem;
+  text-align: center;
+  color: #cbd5e1;
+  font-size: 0.95rem;
+}
+
+.signupLink {
+  color: #93c5fd;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.signupLink:hover {
+  text-decoration: underline;
+}
+
+.error {
+  margin: 0;
+  color: #fca5a5;
+  font-size: 0.875rem;
+}

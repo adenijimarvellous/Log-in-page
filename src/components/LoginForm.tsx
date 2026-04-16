@@ -1,5 +1,6 @@
 import { type FormEvent, type ChangeEvent, useState } from "react";
 import { FaGoogle, FaGithub, FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import styles from "./LoginForm.module.css";
 
 type LoginErrors = {
@@ -194,9 +195,9 @@ const LoginForm = () => {
 
       <p className={styles.footer}>
         Don't have an account?{" "}
-        <a href="#" className={styles.signupLink}>
+        <Link to="/signup" className={styles.signupLink}>
           Sign up
-        </a>
+        </Link>
       </p>
     </form>
   );
