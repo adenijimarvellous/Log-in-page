@@ -1,6 +1,6 @@
 import { type FormEvent, type ChangeEvent, useState } from "react";
 import { FaGoogle, FaGithub, FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./LoginForm.module.css";
 
 type LoginErrors = {
@@ -53,6 +53,8 @@ const LoginForm = () => {
     return !nextErrors.email && !nextErrors.password;
   };
 
+  const navigate = useNavigate();
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -61,7 +63,12 @@ const LoginForm = () => {
     }
 
     console.log("Signing in", { email, password, rememberMe });
-    // TODO: wire up authentication logic
+
+    //  1. Save login state
+    localStorage.setItem("isAuth", "true");
+
+    //  2. Redirect to dashboard
+    navigate("/dashboard");
   };
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
