@@ -1,10 +1,31 @@
 import { type FormEvent, type ChangeEvent, useState } from "react";
-import { FaGoogle, FaGithub } from "react-icons/fa";
+import { FaGoogle, FaGithub, FaEye, FaEyeSlash } from "react-icons/fa";
 import styles from "./LoginForm.module.css";
 
 type LoginErrors = {
   email: string;
   password: string;
+};
+
+const validateEmail = (value: string) => {
+  if (!value.trim()) {
+    return "Email is required.";
+  }
+
+  const gmailPattern = /^[A-Za-z0-9._%+-]+@gmail\.com$/i;
+  return gmailPattern.test(value) ? "" : "Please enter a valid Gmail address.";
+};
+
+const validatePassword = (value: string) => {
+  if (!value.trim()) {
+    return "Password is required.";
+  }
+
+  const passwordPattern =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9])\S+$/;
+  return passwordPattern.test(value)
+    ? ""
+    : "Password must include uppercase, lowercase, number, and special character with no spaces.";
 };
 
 const LoginForm = () => {
@@ -17,18 +38,15 @@ const LoginForm = () => {
     password: "",
   });
 
+  const emailError = validateEmail(email);
+  const passwordError = validatePassword(password);
+  const isFormValid = !emailError && !passwordError;
+
   const validate = () => {
-    const nextErrors: LoginErrors = { email: "", password: "" };
-
-    if (!email.trim()) {
-      nextErrors.email = "Email is required.";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      nextErrors.email = "Enter a valid email address.";
-    }
-
-    if (!password.trim()) {
-      nextErrors.password = "Password is required.";
-    }
+    const nextErrors: LoginErrors = {
+      email: validateEmail(email),
+      password: validatePassword(password),
+    };
 
     setErrors(nextErrors);
     return !nextErrors.email && !nextErrors.password;
@@ -46,13 +64,21 @@ const LoginForm = () => {
   };
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-    setErrors((current) => ({ ...current, email: "" }));
+    const value = event.target.value;
+    setEmail(value);
+    setErrors((current) => ({
+      ...current,
+      email: validateEmail(value),
+    }));
   };
 
   const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
-    setErrors((current) => ({ ...current, password: "" }));
+    const value = event.target.value;
+    setPassword(value);
+    setErrors((current) => ({
+      ...current,
+      password: validatePassword(value),
+    }));
   };
 
   return (
@@ -67,7 +93,13 @@ const LoginForm = () => {
           type="email"
           value={email}
           onChange={handleEmailChange}
-          placeholder="you@example.com"
+          onBlur={() =>
+            setErrors((current) => ({
+              ...current,
+              email: validateEmail(email),
+            }))
+          }
+          placeholder="your@example.com"
           className={`${styles.input} ${errors.email ? styles.invalid : ""}`}
           required
           aria-describedby={errors.email ? "email-error" : undefined}
@@ -90,6 +122,12 @@ const LoginForm = () => {
             type={showPassword ? "text" : "password"}
             value={password}
             onChange={handlePasswordChange}
+            onBlur={() =>
+              setErrors((current) => ({
+                ...current,
+                password: validatePassword(password),
+              }))
+            }
             placeholder="Enter your password"
             className={`${styles.input} ${errors.password ? styles.invalid : ""}`}
             required
@@ -101,7 +139,7 @@ const LoginForm = () => {
             onClick={() => setShowPassword((current) => !current)}
             aria-label={showPassword ? "Hide password" : "Show password"}
           >
-            {showPassword ? "Hide" : "Show"}
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
           </button>
         </div>
         {errors.password && (
@@ -127,7 +165,11 @@ const LoginForm = () => {
         </a>
       </div>
 
-      <button type="submit" className={styles.primaryButton}>
+      <button
+        type="submit"
+        className={styles.primaryButton}
+        disabled={!isFormValid}
+      >
         Sign in
       </button>
 

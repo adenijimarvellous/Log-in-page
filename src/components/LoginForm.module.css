@@ -61,7 +61,7 @@
   border: none;
   background: rgba(255, 255, 255, 0.08);
   color: #c7d2fe;
-  font-weight: 700;
+  font-weight: 800;
   border-radius: 999px;
   cursor: pointer;
   transition:
@@ -121,6 +121,13 @@
     transform 0.2s ease,
     box-shadow 0.2s ease,
     background-color 0.2s ease;
+}
+
+.primaryButton:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 .primaryButton:hover {
