@@ -186,13 +186,21 @@ const LoginForm = () => {
       </div>
 
       <div className={styles.socialGrid}>
-        <button type="button" className={styles.socialButton}>
+        <button
+          type="button"
+          className={styles.socialButton}
+          onClick={() => navigate("/auth/google")}
+        >
           <span className={`${styles.socialIcon} ${styles.googleIcon}`}>
             <FaGoogle />
           </span>
           Continue with Google
         </button>
-        <button type="button" className={styles.socialButton}>
+        <button
+          type="button"
+          className={styles.socialButton}
+          onClick={() => navigate("/auth/github")}
+        >
           <span className={`${styles.socialIcon} ${styles.githubIcon}`}>
             <FaGithub />
           </span>
