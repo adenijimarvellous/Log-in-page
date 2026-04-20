@@ -1,7 +1,14 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
   return (
     <main className={styles.page} aria-label="Dashboard page">
       <section className={styles.card}>
@@ -17,33 +24,31 @@ const Dashboard = () => {
               <p className={styles.kicker}>Dashboard</p>
               <h1 className={styles.title}>Protected access</h1>
               <p className={styles.subtitle}>
-                This page is only visible when the user is authenticated.
-                Authentication is simulated for now.
+                This page is only visible when the user is authenticated. You
+                are logged in with JWT token.
               </p>
             </div>
 
             <div className={styles.heroMeta}>
               <span>Account overview</span>
               <span>Secure area</span>
-              <span>Coming soon</span>
+              <span>Token expires in 1 hour</span>
             </div>
           </aside>
 
           <div className={styles.formPanel}>
             <div className={styles.panelHeader}>
               <p className={styles.panelMeta} style={{ textAlign: "center" }}>
-                You are being protected by the route guard.
+                Welcome to your dashboard.
               </p>
             </div>
             <div className={styles.form}>
               <p className={styles.subtitle}>
-                Since authentication is currently disabled, you will be
-                redirected to login. Once you have real auth logic, this page
-                will become accessible.
+                You are authenticated. Your session is secure with JWT.
               </p>
-              <Link to="/login" className={styles.primaryButton}>
-                Return to log in
-              </Link>
+              <button onClick={handleLogout} className={styles.primaryButton}>
+                Logout
+              </button>
             </div>
           </div>
         </div>

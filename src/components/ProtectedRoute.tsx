@@ -1,5 +1,6 @@
 import { type ReactNode } from "react";
 import { Navigate, useLocation } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 type ProtectedRouteProps = {
   children: ReactNode;
@@ -7,9 +8,21 @@ type ProtectedRouteProps = {
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const location = useLocation();
-  const isAuthenticated = localStorage.getItem("isAuth") === "true";
+  const token = localStorage.getItem("token");
 
-  if (!isAuthenticated) {
+  if (!token) {
+    return <Navigate to="/login" replace state={{ from: location }} />;
+  }
+
+  try {
+    const decoded = jwtDecode(token);
+    const currentTime = Date.now() / 1000;
+    if (decoded.exp < currentTime) {
+      localStorage.removeItem("token");
+      return <Navigate to="/login" replace state={{ from: location }} />;
+    }
+  } catch (error) {
+    localStorage.removeItem("token");
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
 

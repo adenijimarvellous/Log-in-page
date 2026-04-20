@@ -76,7 +76,7 @@ const LoginForm = () => {
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem('isAuth', 'true');
+        localStorage.setItem('token', data.token);
         navigate('/dashboard');
       } else {
         setErrorMessage(data.error);
