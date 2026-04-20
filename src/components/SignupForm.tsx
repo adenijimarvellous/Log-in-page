@@ -1,6 +1,6 @@
-import { type ChangeEvent, type FormEvent, useState } from "react";
+﻿import { type ChangeEvent, type FormEvent, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./SignupForm.module.css";
 
 type SignupErrors = {
@@ -53,6 +53,8 @@ const SignupForm = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [errors, setErrors] = useState<SignupErrors>({
     fullName: "",
     email: "",
@@ -87,15 +89,37 @@ const SignupForm = () => {
     );
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!validate()) {
       return;
     }
 
-    console.log("Signing up", { fullName, email, password });
-    // TODO: wire up signup logic
+    setLoading(true);
+    setErrorMessage("");
+
+    try {
+      const response = await fetch("http://localhost:5000/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        navigate("/login");
+      } else {
+        setErrorMessage(data.error);
+      }
+    } catch {
+      setErrorMessage("Network error");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleFullNameChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -274,14 +298,15 @@ const SignupForm = () => {
             {errors.confirmPassword}
           </p>
         )}
+        {errorMessage && <p className={styles.error}>{errorMessage}</p>}
       </div>
 
       <button
         type="submit"
         className={styles.primaryButton}
-        disabled={!isFormValid}
+        disabled={!isFormValid || loading}
       >
-        Sign up
+        {loading ? "Signing up..." : "Sign up"}
       </button>
 
       <p className={styles.footer}>
