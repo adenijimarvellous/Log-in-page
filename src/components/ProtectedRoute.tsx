@@ -6,23 +6,22 @@ type ProtectedRouteProps = {
   children: ReactNode;
 };
 
+const isTokenValid = (token: string): boolean => {
+  try {
+    const decoded = jwtDecode<{ exp: number }>(token);
+    return decoded.exp >= Date.now() / 1000;
+  } catch {
+    return false;
+  }
+};
+
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const location = useLocation();
   const token = localStorage.getItem("token");
 
-  if (!token) {
-    return <Navigate to="/login" replace state={{ from: location }} />;
-  }
-
-  try {
-    const decoded = jwtDecode(token);
-    const currentTime = Date.now() / 1000;
-    if (decoded.exp < currentTime) {
-      localStorage.removeItem("token");
-      return <Navigate to="/login" replace state={{ from: location }} />;
-    }
-  } catch (error) {
+  if (!token || !isTokenValid(token)) {
     localStorage.removeItem("token");
+    localStorage.removeItem("userName");
     return <Navigate to="/login" replace state={{ from: location }} />;
   }
 

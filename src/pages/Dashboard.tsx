@@ -1,59 +1,90 @@
-import { useNavigate } from "react-router-dom";
-import styles from "./Login.module.css";
+import { useState } from "react";
+import Sidebar from "../components/Sidebar";
+import Header from "../components/Header";
+import StatCardsContainer from "../components/StatCardsContainer";
+import styles from "./Dashboard.module.css";
 
 const Dashboard = () => {
-  const navigate = useNavigate();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [activeNav, setActiveNav] = useState("home");
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    setSidebarOpen(false);
+  };
+
+  const handleNavClick = (itemId: string) => {
+    setActiveNav(itemId);
+    closeSidebar();
   };
 
   return (
-    <main className={styles.page} aria-label="Dashboard page">
-      <section className={styles.card}>
-        <div className={styles.grid}>
-          <aside className={styles.hero}>
-            <div className={styles.brand}>
-              <div className={styles.logo} aria-hidden="true">
-                MC
-              </div>
-            </div>
+    <div className={styles.dashboardContainer}>
+      <Sidebar
+        isOpen={sidebarOpen}
+        onClose={closeSidebar}
+        activeItem={activeNav}
+        onItemClick={handleNavClick}
+      />
 
-            <div className={styles.content}>
-              <p className={styles.kicker}>Dashboard</p>
-              <h1 className={styles.title}>Protected access</h1>
-              <p className={styles.subtitle}>
-                This page is only visible when the user is authenticated. You
-                are logged in with JWT token.
-              </p>
-            </div>
-
-            <div className={styles.heroMeta}>
-              <span>Account overview</span>
-              <span>Secure area</span>
-              <span>Token expires in 1 hour</span>
-            </div>
-          </aside>
-
-          <div className={styles.formPanel}>
-            <div className={styles.panelHeader}>
-              <p className={styles.panelMeta} style={{ textAlign: "center" }}>
-                Welcome to your dashboard.
-              </p>
-            </div>
-            <div className={styles.form}>
-              <p className={styles.subtitle}>
-                You are authenticated. Your session is secure with JWT.
-              </p>
-              <button onClick={handleLogout} className={styles.primaryButton}>
-                Logout
-              </button>
-            </div>
-          </div>
+      <div className={styles.mainContent}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "16px",
+            padding: "16px 20px",
+            borderBottom: "1px solid #e5e7eb",
+          }}
+        >
+          <button
+            className={styles.toggleButton}
+            onClick={toggleSidebar}
+            aria-label="Toggle sidebar"
+          >
+            ☰
+          </button>
         </div>
-      </section>
-    </main>
+        <Header />
+
+        <main className={styles.contentArea} role="main">
+          <section>
+            <h2>Dashboard Overview</h2>
+            <StatCardsContainer
+              cards={[
+                {
+                  title: "Total Users",
+                  value: 12543,
+                  icon: "👥",
+                  suffix: "users",
+                },
+                {
+                  title: "Total Orders",
+                  value: 8234,
+                  icon: "📋",
+                  suffix: "orders",
+                },
+                {
+                  title: "Revenue",
+                  value: 542890,
+                  icon: "💰",
+                  suffix: "USD",
+                },
+                {
+                  title: "Conversion Rate",
+                  value: 342,
+                  icon: "📈",
+                  suffix: "%",
+                },
+              ]}
+            />
+          </section>
+        </main>
+      </div>
+    </div>
   );
 };
 
